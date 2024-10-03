@@ -1,4 +1,5 @@
 require('dotenv').config()
+const sql = require('mssql')
 
 const config = {
   server: process.env.DB_SERVER,
@@ -14,7 +15,11 @@ const config = {
   port: 1433
 }
 
+const connection =()=>{
+  return sql.connect(config);
+}
+
 module.exports = {
-  config
+  connection
 };
 

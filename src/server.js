@@ -7,6 +7,9 @@ const port = process.env.PORT || 8888;
 const hostname = process.env.HOST_NAME;
 const webRoutes = require('./routes/web')
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
 //config template engine
 configViewEngine(app)
 

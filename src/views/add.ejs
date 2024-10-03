@@ -1,10 +1,31 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
-    <h1>Thêm thông tin khách hàng</h1>
+    <h1>Add category</h1>
+    <form action="/add-category" method="post">
+        <fieldset>
+            <legend>Form add new category</legend>
+            <div class="form-add-category">
+                <div class=input-group>
+                    <label>Name</label>
+                    <input type="text" name="Name" maxlength="50" required>
+                </div>
+                <div class=input-group>
+                    <label>rowguid</label>
+                    <input type="text" name="rowguid" required>
+                </div>
+                <button>Create</button>
+            </div>
+        </fieldset>
+    </form>
+
 </body>
+
 </html>
