@@ -1,0 +1,35 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <ul class="sidenav">
+        <li><a href="/">Trang chủ</a></li>
+        <li><a href="/product">Sản phẩm</a></li>
+        <li><a class="active" href="/category">Category</a></li>
+        <li><a href="subcategory">Subcategory</a></li>
+    </ul>
+    <div class="content">
+        <h1>Add category</h1>
+        <form action="/category" method="post">
+            <fieldset>
+                <legend>Form add new category</legend>
+                <div class="form-add-category">
+                    <div class=input-group>
+                        <label>Name</label>
+                        <input type="text" name="Name" maxlength="50" required>
+                    </div>
+                    <button>Create</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+
+</html>

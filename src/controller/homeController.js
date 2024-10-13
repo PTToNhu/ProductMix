@@ -1,76 +1,54 @@
 var { connection } = require('../config/database')
 const sql = require("mssql");
+const { getProductsFDB, postCategoryFDB, getCategoryFDB, postSubCategoryFDB } = require('../routes/api')
 
 const getHomepage = (req, res) => {
-  res.send("Welcome to my project")
+  res.render("home.ejs")
 }
-const addCategory = (req, res) => {
-  res.render('add.ejs')
+const getAddCategory = (req, res) => {
+  res.render('category.ejs')
 }
-
 const postAddCategory = async (req, res) => {
-  let { Name, rowguid } = req.body;
-  console.log('>>>check Name:', Name, ' rowguid:', rowguid)
-  const pool = await connection;
-  const data = pool.request()
-    .input('Name', sql.NVarChar, Name)
-    .input('rowguid', sql.UniqueIdentifier, rowguid)
-    .query(
-      `INSERT INTO [Production].[ProductCategory]
-           ([Name]
-           ,[rowguid]
-           ,[ModifiedDate])
-      VALUES
-           (@Name, @rowguid,GETDATE())`)
+  let Name = req.body.Name;
+  //console.log('>>>check Name:', Name)
+  const data = await postCategoryFDB(Name)
   res.send('add new category')
 }
-
-const getProduct = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
-    const pool = await connection()
-    const data = await pool.request()
-      .query(`SELECT top 20 [ProductID]
-      ,[Name]
-      ,[ProductNumber]
-      ,[MakeFlag]
-      ,[FinishedGoodsFlag]
-      ,[Color]
-      ,[SafetyStockLevel]
-      ,[ReorderPoint]
-      ,[StandardCost]
-      ,[ListPrice]
-      ,[Size]
-      ,[SizeUnitMeasureCode]
-      ,[WeightUnitMeasureCode]
-      ,[Weight]
-      ,[DaysToManufacture]
-      ,[ProductLine]
-      ,[Class]
-      ,[Style]
-      ,[ProductSubcategoryID]
-      ,[ProductModelID]
-      ,[SellStartDate]
-      ,[SellEndDate]
-      ,[DiscontinuedDate]
-      ,[rowguid]
-      ,[ModifiedDate]
-      FROM [CompanyX].[Production].[Product]`)
-
+    const data = await getProductsFDB();
     //console.log(data.recordset)
-    res.render('listProduct.ejs', { listProducts: data.recordset })
+    res.render('product.ejs', { listProducts: data.recordset })
   }
   catch (err) {
     console.error("Error fetching products: ", err);
     res.status(500).send("Error fetching products");
   }
 }
-
-
+const getAddSubCategory = async (req, res) => {
+  try {
+    const data = await getCategoryFDB()
+    //console.log('>>>category: ', data.recordset)
+    res.render('subCategory.ejs', { listCategories: data.recordset })
+  }
+  catch (err) {
+    console.error("Error fetching products: ", err);
+    res.status(500).send("Error fetching products");
+  }
+}
+const postAddSubCategory = async (req, res) => {
+  let { ProductCategoryID, Name } = req.body;
+  //console.log('>>>check PId:', ProductCategoryID,'>>>Name:', Name)
+  const data = await postSubCategoryFDB(Name, ProductCategoryID)
+  res.send('add new subcategory')
+}
 
 
 module.exports = {
   getHomepage,
-  addCategory,
-  getProduct,
-  postAddCategory
+  getAddCategory,
+  getProducts,
+  postAddCategory,
+  getAddSubCategory,
+  postAddSubCategory
 }

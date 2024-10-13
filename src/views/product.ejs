@@ -1,0 +1,160 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <ul class="sidenav">
+    <li><a href="/">Trang chủ</a></li>
+    <li><a class="active" href="/product">Sản phẩm</a></li>
+    <li><a href="/category">Category</a></li>
+    <li><a href="subcategory">Subcategory</a></li>
+  </ul>
+  <div class="content">
+    <button class="button" onclick="openForm()"><i class="fa fa-plus"></i> New product</button>
+    <div class="overlay"></div>
+    <div class="form-popup" id="myForm">
+      <form action="/product" class="form-container">
+        <h2>Add new product</h2>
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit" class="btn">Save</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
+    <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+        document.querySelector(".overlay").style.display = "block"; // Hiển thị lớp phủ
+      }
+
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        document.querySelector(".overlay").style.display = "none"; // Ẩn lớp phủ
+      }
+    </script>
+    <table id="products">
+      <thead>
+        <tr>
+          <th>ProductID</th>
+          <th>Name</th>
+          <th>ProductNumber</th>
+          <th>MakeFlag</th>
+          <th>FinishedGoodsFlag</th>
+          <th>Color</th>
+          <th>SafetyStockLevel</th>
+          <th>ReorderPoint</th>
+          <th>StandardCost</th>
+          <th>ListPrice</th>
+          <th>Size</th>
+          <th>SizeUnitMeasureCode</th>
+          <th>WeightUnitMeasureCode</th>
+          <th>Weight</th>
+          <th>DaysToManufacture</th>
+          <th>ProductLine</th>
+          <th>Class</th>
+          <th>Style</th>
+          <th>ProductSubcategoryID</th>
+          <th>ProductModelID</th>
+          <th>SellStartDate</th>
+          <th>SellEndDate</th>
+          <th>DiscontinuedDate</th>
+          <th>rowguid</th>
+          <th>ModifiedDate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% listProducts.forEach(product=> { %>
+          <tr>
+            <td>
+              <%= product.ProductID || "N/A" %>
+            </td>
+            <td>
+              <%= product.Name || "N/A" %>
+            </td>
+            <td>
+              <%= product.ProductNumber || "N/A" %>
+            </td>
+            <td>
+              <%= product.MakeFlag ? "Yes" : "No" %>
+            </td>
+            <td>
+              <%= product.FinishedGoodsFlag ? "Yes" : "No" %>
+            </td>
+            <td>
+              <%= product.Color || "N/A" %>
+            </td>
+            <td>
+              <%= product.SafetyStockLevel || "N/A" %>
+            </td>
+            <td>
+              <%= product.ReorderPoint || "N/A" %>
+            </td>
+            <td>
+              <%= product.StandardCost %>
+            </td>
+            <td>
+              <%= product.ListPrice %>
+            </td>
+            <td>
+              <%= product.Size || "N/A" %>
+            </td>
+            <td>
+              <%= product.SizeUnitMeasureCode || "N/A" %>
+            </td>
+            <td>
+              <%= product.WeightUnitMeasureCode || "N/A" %>
+            </td>
+            <td>
+              <%= product.Weight || "N/A" %>
+            </td>
+            <td>
+              <%= product.DaysToManufacture ? "Yes" : "No" %>
+            </td>
+            <td>
+              <%= product.ProductLine || "N/A" %>
+            </td>
+            <td>
+              <%= product.Class || "N/A" %>
+            </td>
+            <td>
+              <%= product.Style || "N/A" %>
+            </td>
+            <td>
+              <%= product.ProductSubcategoryID || "N/A" %>
+            </td>
+            <td>
+              <%= product.ProductModelID || "N/A" %>
+            </td>
+            <td>
+              <%= product.SellStartDate ? new Date(product.SellStartDate).toLocaleDateString() : "N/A" %>
+            </td>
+            <td>
+              <%= product.SellEndDate ? new Date(product.SellEndDate).toLocaleDateString() : "N/A" %>
+            </td>
+            <td>
+              <%= product.DiscontinuedDate ? new Date(product.DiscontinuedDate).toLocaleDateString() : "N/A" %>
+            </td>
+            <td>
+              <%= product.rowguid || "N/A" %>
+            </td>
+            <td>
+              <%= product.ModifiedDate ? new Date(product.ModifiedDate).toLocaleDateString() : "N/A" %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

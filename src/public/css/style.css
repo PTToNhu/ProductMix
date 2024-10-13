@@ -1,3 +1,97 @@
+body {
+  margin: 0;
+}
+
+ul.sidenav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 11%;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+ul.sidenav li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+ul.sidenav li a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+ul.sidenav li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 11%;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 900px) {
+  ul.sidenav {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  ul.sidenav li a {
+    float: left;
+    padding: 15px;
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  ul.sidenav li a {
+    text-align: center;
+    float: none;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+.subcategory-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.create-button {
+  background-color: #4CAF50;
+  /* Màu nền xanh */
+  color: white;
+  /* Màu chữ trắng */
+  padding: 10px 15px;
+  /* Padding cho nút */
+  border: none;
+  /* Không viền */
+  border-radius: 5px;
+  /* Bo góc cho nút */
+  cursor: pointer;
+  /* Con trỏ chuột đổi thành tay khi di chuột lên nút */
+  font-size: 16px;
+  /* Kích thước chữ */
+  transition: background-color 0.3s;
+  /* Hiệu ứng chuyển màu nền */
+}
+
 #products {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -32,7 +126,7 @@
   padding-top: 100px;
 }
 
-#input-group {
+.input-group {
   padding: 10px;
 }
 
@@ -40,4 +134,76 @@
   margin: 10px;
   cursor: pointer;
   background-color: #45a049;
+}
+
+#d-none {
+  display: none;
+}
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.button:hover{
+  background-color: #097a50;
+  color: white;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 8;
+}
+.form-popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 5%;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+.form-container .cancel {
+  background-color: red;
+}
+
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
