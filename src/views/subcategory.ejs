@@ -9,10 +9,10 @@
 
 <body>
     <ul class="sidenav">
-        <li><a href="/">Trang chủ</a></li>
-        <li><a href="/product">Sản phẩm</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/product">Product</a></li>
         <li><a href="/category">Category</a></li>
-        <li><a class="active" href="subcategory">Subcategory</a></li>
+        <li><a class="active" href="/subcategory">Subcategory</a></li>
     </ul>
     <div class="content">
         <h1 class="title">Add SubCategory</h1>
@@ -21,7 +21,7 @@
             <fieldset>
                 <legend>Form add new SubCategory</legend>
                 <div class="form-add-SubCategory">
-                    <div class=input-group>
+                    <div class="input-group">
                         <label>Category</label>
                         <select name="ProductCategoryID">
                             <% listCategories.forEach(category=> { %>
@@ -31,12 +31,11 @@
                                 <% }) %>
                         </select>
                     </div>
-                    <div class=input-group>
+                    <div class="input-group">
                         <label>Name</label>
                         <input type="text" name="Name" required>
                     </div>
-                    <button type="submit" class="create-button">Create</button>
-                </div>
+                    <button type="submit">Save</button>
             </fieldset>
         </form>
     </div>

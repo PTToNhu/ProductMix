@@ -1,14 +1,22 @@
 var { connection } = require('../config/database')
 const sql = require("mssql");
-const { getProductsFDB, postCategoryFDB, getCategoryFDB, postSubCategoryFDB } = require('../routes/api')
+const { getProductsFDB, postCategoryFDB, getCategoryFDB, postSubCategoryFDB, deleteCategoryFDB, updateCategoryFDB } = require('../routes/api')
 
 const getHomepage = (req, res) => {
   res.render("home.ejs")
 }
-const getAddCategory = (req, res) => {
-  res.render('category.ejs')
+const getCategory = async (req, res) => {
+  try {
+    const data = await getCategoryFDB();
+    //console.log(data.recordset)
+    res.render('category.ejs', { categories: data.recordset })
+  }
+  catch (err) {
+    console.error("Error fetching products: ", err);
+    res.status(500).send("Error fetching categories");
+  }
 }
-const postAddCategory = async (req, res) => {
+const postCategory = async (req, res) => {
   let Name = req.body.Name;
   //console.log('>>>check Name:', Name)
   const data = await postCategoryFDB(Name)
@@ -42,13 +50,25 @@ const postAddSubCategory = async (req, res) => {
   const data = await postSubCategoryFDB(Name, ProductCategoryID)
   res.send('add new subcategory')
 }
+const deleteCategory=async(req, res)=>{
+  await deleteCategoryFDB(req.params.ProductCategoryID)
+  console.log(req.params)
+  res.send('delete')
+}
+const updateCategory=async(req, res)=>{
+  await updateCategoryFDB(req.params.ProductCategoryID,'Name')
+  console.log(req.params)
+  res.send('edited')
+}
 
 
 module.exports = {
   getHomepage,
-  getAddCategory,
+  getCategory,
   getProducts,
-  postAddCategory,
+  postCategory,
   getAddSubCategory,
-  postAddSubCategory
+  postAddSubCategory,
+  deleteCategory,
+  updateCategory
 }

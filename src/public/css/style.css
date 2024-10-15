@@ -1,5 +1,57 @@
+/*whole*/
 body {
   margin: 0;
+}
+
+button {
+  background-color: #347538;
+  color: white;
+  text-align: center;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline;
+  margin: 10px 10px 10px 0px; /*top right bottom left*/
+  transition: background-color 0.3s;
+  /* Hiệu ứng chuyển màu nền */
+}
+button:hover {
+  cursor: pointer;
+  background-color: #347538;
+}
+
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #347538;
+  color: white;
+}
+
+.title {
+  text-align: center;
 }
 
 ul.sidenav {
@@ -60,10 +112,7 @@ div.content {
   }
 }
 
-.title {
-  text-align: center;
-}
-
+/*subcategory-form*/
 .subcategory-form {
   max-width: 400px;
   margin: 0 auto;
@@ -72,138 +121,74 @@ div.content {
   border-radius: 10px;
   background-color: #f9f9f9;
 }
-
-.create-button {
-  background-color: #4CAF50;
-  /* Màu nền xanh */
-  color: white;
-  /* Màu chữ trắng */
-  padding: 10px 15px;
-  /* Padding cho nút */
-  border: none;
-  /* Không viền */
-  border-radius: 5px;
-  /* Bo góc cho nút */
-  cursor: pointer;
-  /* Con trỏ chuột đổi thành tay khi di chuột lên nút */
-  font-size: 16px;
-  /* Kích thước chữ */
-  transition: background-color 0.3s;
-  /* Hiệu ứng chuyển màu nền */
-}
-
-#products {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#products td,
-#products th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#products tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#products tr:hover {
-  background-color: #ddd;
-}
-
-#products th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-
 #form-add-category {
   width: 500px;
   margin: 0 auto;
   padding-top: 100px;
 }
 
+
 .input-group {
   padding: 10px;
 }
 
-#button:hover {
-  margin: 10px;
-  cursor: pointer;
-  background-color: #45a049;
-}
-
-#d-none {
-  display: none;
-}
-.button {
-  background-color: #04AA6D;
-  border: none;
-  color: white;
-  padding: 10px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-.button:hover{
-  background-color: #097a50;
-  color: white;
-}
 .overlay {
   display: none;
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%; 
+  width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 8;
 }
+
 .form-popup {
   display: none;
-  position: fixed;
+  position: absolute;
   left: 50%;
-  top: 5%;
-  border: 3px solid #f1f1f1;
+  transform: translate(-50%);
+  width: 60%;
+  margin-top: 10px;
+  overflow-y: auto;
   z-index: 9;
 }
+
 .form-container {
-  max-width: 300px;
+  display:block;
+  justify-content: space-between;
+  max-width: none;
   padding: 10px;
   background-color: white;
+  position: relative;
 }
-.form-container input[type=text], .form-container input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-.form-container .btn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-.form-container .cancel {
-  background-color: red;
+.grid{
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
 }
 
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
+.form-container input[type=text]{
+  width:100%;
+  font-size: 16px;
+  padding: 8px;
+  margin: 10px 0px 10px 0;
+  border: 1px solid #347538;
+  border-radius: 6px;
+  background: #f1f1f1;
+}
+
+.form-container .save {
+  background-color: #347538;
+}
+
+.form-container .close {
+  background-color: #ffffff;
+  border: 1px solid #347538;
+  color: #347538;
+}
+
+.form-container .save:hover,
+.close:hover {
+  opacity: 0.5;
 }

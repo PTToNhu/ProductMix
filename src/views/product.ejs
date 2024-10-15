@@ -10,39 +10,55 @@
 
 <body>
   <ul class="sidenav">
-    <li><a href="/">Trang chủ</a></li>
-    <li><a class="active" href="/product">Sản phẩm</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a class="active" href="/product">Product</a></li>
     <li><a href="/category">Category</a></li>
-    <li><a href="subcategory">Subcategory</a></li>
+    <li><a href="/subcategory">Subcategory</a></li>
   </ul>
+
   <div class="content">
-    <button class="button" onclick="openForm()"><i class="fa fa-plus"></i> New product</button>
+    <button onclick="openForm()"><i class="fa fa-plus"></i> New product</button>
+
     <div class="overlay"></div>
-    <div class="form-popup" id="myForm">
+
+    <div class="form-popup">
       <form action="/product" class="form-container">
-        <h2>Add new product</h2>
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
-
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-
-        <button type="submit" class="btn">Save</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        <h2 class="title">Add new product</h2>
+        <div class="grid">
+          <div class="input-group">
+            <label><b>Name</b></label><br>
+            <input type="text" name="Name" required>
+          </div>
+          <div class="input-group">
+            <label><b>Product Number</b></label><br>
+            <input type="text" name="ProductNumber" required>
+          </div>
+          <div class="input-group">
+            <label><b>Product Number</b></label><br>
+            <input type="text" name="ProductNumber" required>
+          </div>
+          <div class="input-group">
+            <label><b>Product Number</b></label><br>
+            <input type="text" name="ProductNumber" required>
+          </div>
+        </div>
+        <button type="button" class="close" onclick="closeForm()">Close</button>
+        <button type="submit" class="save">Save</button>
       </form>
     </div>
     <script>
       function openForm() {
-        document.getElementById("myForm").style.display = "block";
+        document.querySelector(".form-popup").style.display = "block";
         document.querySelector(".overlay").style.display = "block"; // Hiển thị lớp phủ
       }
 
       function closeForm() {
-        document.getElementById("myForm").style.display = "none";
+        document.querySelector(".form-popup").style.display = "none";
         document.querySelector(".overlay").style.display = "none"; // Ẩn lớp phủ
       }
     </script>
-    <table id="products">
+
+    <table>
       <thead>
         <tr>
           <th>ProductID</th>
@@ -118,7 +134,7 @@
               <%= product.Weight || "N/A" %>
             </td>
             <td>
-              <%= product.DaysToManufacture ? "Yes" : "No" %>
+              <%= product.DaysToManufacture%>
             </td>
             <td>
               <%= product.ProductLine || "N/A" %>

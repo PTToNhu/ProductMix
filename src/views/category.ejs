@@ -9,10 +9,10 @@
 
 <body>
     <ul class="sidenav">
-        <li><a href="/">Trang chủ</a></li>
-        <li><a href="/product">Sản phẩm</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/product">Product</a></li>
         <li><a class="active" href="/category">Category</a></li>
-        <li><a href="subcategory">Subcategory</a></li>
+        <li><a href="/subcategory">Subcategory</a></li>
     </ul>
     <div class="content">
         <h1>Add category</h1>
@@ -20,7 +20,7 @@
             <fieldset>
                 <legend>Form add new category</legend>
                 <div class="form-add-category">
-                    <div class=input-group>
+                    <div class="input-group">
                         <label>Name</label>
                         <input type="text" name="Name" maxlength="50" required>
                     </div>
@@ -28,7 +28,43 @@
                 </div>
             </fieldset>
         </form>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>rowguid</th>
+                    <th>ModifiedDate</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% categories.forEach(category=> { %>
+                    <tr>
+                        <td>
+                            <%= category.Name || "N/A" %>
+                        </td>
+                        <td>
+                            <%= category.rowguid %>
+                        </td>
+                        <td>
+                            <%= category.ModifiedDate %>
+                        </td>
+                        <td>
+                            <form action="/category/update/<%=category.ProductCategoryID %>" method="post">
+                                <button>Sửa</button>
+                            </form>
+                            <form action="/category/delete/<%=category.ProductCategoryID %>" method="post">
+                                <button>Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
     </div>
+    <script>
+
+    </script>
 
 </body>
 
