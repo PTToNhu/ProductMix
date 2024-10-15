@@ -50,21 +50,20 @@
                             <%= category.ModifiedDate %>
                         </td>
                         <td>
-                            <form action="/category/update/<%=category.ProductCategoryID %>" method="post">
-                                <button>Sửa</button>
-                            </form>
-                            <form action="/category/delete/<%=category.ProductCategoryID %>" method="post">
-                                <button>Xóa</button>
-                            </form>
+                            <div style="display: flex;">
+                                <form action="/category/update/<%=category.ProductCategoryID %>" method="post">
+                                    <button>Sửa</button>
+                                </form>
+                                <form action="/category/delete/<%=category.ProductCategoryID %>" method="post">
+                                    <button>Xóa</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <% }) %>
             </tbody>
         </table>
     </div>
-    <script>
-
-    </script>
 
 </body>
 

@@ -164,11 +164,14 @@ div.content {
 }
 .grid{
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 50% 50%;
   padding: 10px;
 }
 
-.form-container input[type=text]{
+.form-container input[type=text],
+.form-container input[type=number],
+.form-container input[type=date],
+.grid select{
   width:100%;
   font-size: 16px;
   padding: 8px;
@@ -177,7 +180,13 @@ div.content {
   border-radius: 6px;
   background: #f1f1f1;
 }
-
+.grid .grid .input-group input[type=text],
+.grid .grid .input-group input[type=number]{
+  margin: 0px 0px 0px 0;
+}
+.grid .grid .input-group{
+  padding: 8px 10px 0px 0px;
+}
 .form-container .save {
   background-color: #347538;
 }

@@ -38,6 +38,45 @@
                     <button type="submit">Save</button>
             </fieldset>
         </form>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>rowguid</th>
+                    <th>ModifiedDate</th>
+                    <th>Category</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% subCategories.forEach(subCategory=> { %>
+                    <tr>
+                        <td>
+                            <%= subCategory.Name || "N/A" %>
+                        </td>
+                        <td>
+                            <%= subCategory.rowguid %>
+                        </td>
+                        <td>
+                            <%= subCategory.ModifiedDate %>
+                        </td>
+                        <td>
+                            <%= subCategory.ProductCategoryName || "N/A" %>
+                        </td>
+                        <td>
+                            <div style="display: flex;">
+                                <form action="#" method="post">
+                                    <button>Sửa</button>
+                                </form>
+                                <form action="#" method="post">
+                                    <button>Xóa</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
     </div>
 </body>
 

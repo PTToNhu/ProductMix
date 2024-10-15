@@ -48,17 +48,6 @@ const getCategoryFDB = async () => {
         .query(`SELECT [ProductCategoryID],[Name],[rowguid],[ModifiedDate] FROM [Production].[ProductCategory]`)
     return data;
 }
-const postSubCategoryFDB = async (Name, ProductCategoryID) => {
-    const pool = await connection();
-    const data = await pool.request()
-        .input('ProductCategoryID', sql.INT, ProductCategoryID)
-        .input('Name', sql.NVarChar, Name)
-        .query(
-            `INSERT INTO [Production].[ProductSubcategory]
-           ([ProductCategoryID],[Name],[rowguid],[ModifiedDate])
-      VALUES
-           (@ProductCategoryID,@Name, NEWID(),GETDATE())`)
-}
 const deleteCategoryFDB = async (ProductCategoryID) => {
     const pool = await connection();
     const data = await pool.request()
@@ -75,6 +64,31 @@ const updateCategoryFDB = async (ProductCategoryID, Name) => {
                 SET [Name] = @Name
                 WHERE ProductCategoryID=@ProductCategoryID`)
 }
+const getSubCategoryFDB = async () => {
+    const pool = await connection()
+    const data = await pool.request()
+        .query(`SELECT CompanyX.Production.ProductSubcategory.ProductSubcategoryID
+, CompanyX.Production.ProductSubcategory.ProductCategoryID
+, CompanyX.Production.ProductSubcategory.Name
+,CompanyX.Production.ProductSubcategory.rowguid
+, CompanyX.Production.ProductSubcategory.ModifiedDate
+, Production.ProductCategory.Name AS ProductCategoryName
+FROM CompanyX.Production.ProductSubcategory
+JOIN CompanyX.Production.ProductCategory
+ON CompanyX.Production.ProductSubcategory.ProductCategoryID=CompanyX.Production.ProductCategory.ProductCategoryID`)
+    return data;
+}
+const postSubCategoryFDB = async (Name, ProductCategoryID) => {
+    const pool = await connection();
+    const data = await pool.request()
+        .input('ProductCategoryID', sql.INT, ProductCategoryID)
+        .input('Name', sql.NVarChar, Name)
+        .query(
+            `INSERT INTO [Production].[ProductSubcategory]
+           ([ProductCategoryID],[Name],[rowguid],[ModifiedDate])
+      VALUES
+           (@ProductCategoryID,@Name, NEWID(),GETDATE())`)
+}
 const deleteSubCategoryFDB = async (ProductCategoryID) => {
     const pool = await connection();
     const data = await pool.request()
@@ -82,13 +96,31 @@ const deleteSubCategoryFDB = async (ProductCategoryID) => {
         .query(`DELETE FROM [Production].[ProductSubcategory]
       WHERE ProductCategoryID=@ProductCategoryID`)
 }
+const getModelFDB = async () => {
+    const pool = await connection()
+    const data = await pool.request()
+        .query(`SELECT [ProductModelID]
+      ,[Name]
+      ,[CatalogDescription]
+      ,[Instructions]
+      ,[rowguid]
+      ,[ModifiedDate]
+  FROM [CompanyX].[Production].[ProductModel]`)
+    return data;
+}
 
 module.exports = {
     getProductsFDB,
-    postCategoryFDB,
+
     getCategoryFDB,
-    postSubCategoryFDB,
-    deleteCategoryFDB,
+    postCategoryFDB,
     updateCategoryFDB,
-    deleteSubCategoryFDB
+    deleteCategoryFDB,
+
+    getSubCategoryFDB,
+    postSubCategoryFDB,
+    deleteSubCategoryFDB,
+
+    getModelFDB
+
 }
