@@ -1,6 +1,6 @@
 var { connection } = require('../config/database')
 const sql = require("mssql");
-const { getProductsFDB, postCategoryFDB, getCategoryFDB, postSubCategoryFDB, deleteCategoryFDB, updateCategoryFDB } = require('../routes/api')
+const { getProductsFDB, postCategoryFDB, getCategoryFDB, postSubCategoryFDB, deleteCategoryFDB, updateCategoryFDB, deleteSubCategoryFDB } = require('../routes/api')
 
 const getHomepage = (req, res) => {
   res.render("home.ejs")
@@ -50,13 +50,14 @@ const postAddSubCategory = async (req, res) => {
   const data = await postSubCategoryFDB(Name, ProductCategoryID)
   res.send('add new subcategory')
 }
-const deleteCategory=async(req, res)=>{
+const deleteCategory = async (req, res) => {
+  await deleteSubCategoryFDB(req.params.ProductCategoryID)
   await deleteCategoryFDB(req.params.ProductCategoryID)
-  console.log(req.params)
+  //console.log(req.params)
   res.send('delete')
 }
-const updateCategory=async(req, res)=>{
-  await updateCategoryFDB(req.params.ProductCategoryID,'Name')
+const updateCategory = async (req, res) => {
+  await updateCategoryFDB(req.params.ProductCategoryID, 'Name')
   console.log(req.params)
   res.send('edited')
 }
