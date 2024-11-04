@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -13,21 +15,36 @@
         <li><a href="/product">Product</a></li>
         <li><a class="active" href="/category">Category</a></li>
         <li><a href="/subcategory">Subcategory</a></li>
+        <li><a href="/report">Report</a></li>
     </ul>
     <div class="content">
-        <h1>Add category</h1>
-        <form action="/category" method="post">
-            <fieldset>
-                <legend>Form add new category</legend>
-                <div class="form-add-category">
-                    <div class="input-group">
-                        <label>Name</label>
-                        <input type="text" name="Name" maxlength="50" required>
-                    </div>
-                    <button>Create</button>
+        <button onclick="openForm('new-category')"><i class="fa fa-plus"></i> New category</button>
+
+        <div class="overlay"></div>
+
+        <div class="form-popup" id="new-category">
+            <form action="/category" class="form-container" method="post">
+                <h2 class="title">Add new category</h2>
+                <div class="input-group">
+                    <label><b>Name</b></label><br>
+                    <input type="text" name="Name" maxlength="50" required>
                 </div>
-            </fieldset>
-        </form>
+                <button type="button" class="close" onclick="closeForm()">Close</button>
+                <button type="submit" class="save">Save</button>
+            </form>
+        </div>
+        <script>
+            function openForm(formId) {
+                document.getElementById(formId).style.display = "block";
+                document.querySelector(".overlay").style.display = "block";
+            }
+
+            function closeForm() {
+                document.querySelectorAll('.form-popup').forEach(form => form.style.display = "none");
+                document.querySelector(".overlay").style.display = "none";
+            }
+        </script>
+
         <table id="table">
             <thead>
                 <tr>
@@ -51,11 +68,26 @@
                         </td>
                         <td>
                             <div style="display: flex;">
-                                <form action="/category/update/<%=category.ProductCategoryID %>" method="post">
-                                    <button>Sửa</button>
-                                </form>
-                                <form action="/category/delete/<%=category.ProductCategoryID %>" method="post">
-                                    <button>Xóa</button>
+                                <button onclick="openForm('update-category-<%= category.ProductCategoryID %>')">Update</button>
+                                <div class="form-popup update-category" id="update-category-<%= category.ProductCategoryID %>">
+                                    <form action="/category/update/<%= category.ProductCategoryID %>"
+                                        class="form-container" method="post">
+                                        <h2 class="title">Update category</h2>
+                                        <div class="input-group">
+                                            <label><b>Product Category ID</b></label><br>
+                                            <input type="number" name="ProductCategoryID"
+                                                value="<%= category.ProductCategoryID %>" disabled>
+                                        </div>
+                                        <div class="input-group">
+                                            <label><b>Name</b></label><br>
+                                            <input type="text" name="Name" maxlength="50" required>
+                                        </div>
+                                        <button type="button" class="close" onclick="closeForm()">Close</button>
+                                        <button type="submit" class="save">Save</button>
+                                    </form>
+                                </div>
+                                <form action="/category/delete/<%= category.ProductCategoryID %>" method="post">
+                                    <button>Delete</button>
                                 </form>
                             </div>
                         </td>
@@ -64,7 +96,6 @@
             </tbody>
         </table>
     </div>
-
 </body>
 
 </html>

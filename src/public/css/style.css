@@ -145,13 +145,17 @@ div.content {
 
 .form-popup {
   display: none;
-  position: absolute;
+  position: fixed;
   left: 50%;
   transform: translate(-50%);
   width: 60%;
+  max-height: 80%;
   margin-top: 10px;
   overflow-y: auto;
   z-index: 9;
+}
+.update-category{
+  width: 30%;
 }
 
 .form-container {
@@ -166,6 +170,12 @@ div.content {
   display: grid;
   grid-template-columns: 50% 50%;
   padding: 10px;
+}
+
+.grid6-4{
+  display: grid;
+  grid-template-columns: 60% 40%;
+  padding: 0px;
 }
 
 .form-container input[type=text],

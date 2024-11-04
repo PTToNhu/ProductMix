@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -13,18 +14,21 @@
         <li><a href="/product">Product</a></li>
         <li><a href="/category">Category</a></li>
         <li><a class="active" href="/subcategory">Subcategory</a></li>
+        <li><a href="/report">Report</a></li>
     </ul>
     <div class="content">
-        <h1 class="title">Add SubCategory</h1>
-        <!-- <%= listCategories %> -->
-        <form action="/subcategory" method="post" class="subcategory-form">
-            <fieldset>
-                <legend>Form add new SubCategory</legend>
-                <div class="form-add-SubCategory">
+        <button onclick="openForm('new-subcategory')"><i class="fa fa-plus"></i> New subcategory</button>
+
+        <div class="overlay"></div>
+
+        <div class="form-popup" id="new-subcategory">
+            <form action="/subcategory" class="form-container" method="post">
+                <h2 class="title">Add new subcategory</h2>
+                <div class="grid">
                     <div class="input-group">
-                        <label>Category</label>
+                        <label><b>Category</b></label>
                         <select name="ProductCategoryID">
-                            <% listCategories.forEach(category=> { %>
+                            <% categories.forEach(category=> { %>
                                 <option value=<%=category.ProductCategoryID %>>
                                     <%=category.Name || "N/A" %>
                                 </option>
@@ -32,12 +36,25 @@
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>Name</label>
-                        <input type="text" name="Name" required>
+                        <label><b>Name</b></label><br>
+                        <input type="text" name="Name" maxlength="50" required>
                     </div>
-                    <button type="submit">Save</button>
-            </fieldset>
-        </form>
+                </div>
+                <button type="button" class="close" onclick="closeForm()">Close</button>
+                <button type="submit" class="save">Save</button>
+            </form>
+        </div>
+        <script>
+            function openForm(formId) {
+                document.getElementById(formId).style.display = "block";
+                document.querySelector(".overlay").style.display = "block"; // Hiển thị lớp phủ
+            }
+
+            function closeForm() {
+                document.querySelectorAll(".form-popup").forEach(form => form.style.display = "none");
+                document.querySelector(".overlay").style.display = "none"; // Ẩn lớp phủ
+            }
+        </script>
         <table id="table">
             <thead>
                 <tr>
@@ -49,27 +66,57 @@
                 </tr>
             </thead>
             <tbody>
-                <% subCategories.forEach(subCategory=> { %>
+                <% subcategories.forEach(subcategory=> { %>
                     <tr>
                         <td>
-                            <%= subCategory.Name || "N/A" %>
+                            <%= subcategory.Name || "N/A" %>
                         </td>
                         <td>
-                            <%= subCategory.rowguid %>
+                            <%= subcategory.rowguid %>
                         </td>
                         <td>
-                            <%= subCategory.ModifiedDate %>
+                            <%= subcategory.ModifiedDate %>
                         </td>
                         <td>
-                            <%= subCategory.ProductCategoryName || "N/A" %>
+                            <%= subcategory.ProductCategoryName || "N/A" %>
                         </td>
                         <td>
                             <div style="display: flex;">
-                                <form action="#" method="post">
-                                    <button>Sửa</button>
-                                </form>
-                                <form action="#" method="post">
-                                    <button>Xóa</button>
+                                <button
+                                    onclick="openForm('update-subcategory-<%= subcategory.ProductSubcategoryID %>')">Update</button>
+                                <div class="form-popup update-subcategory"
+                                    id="update-subcategory-<%= subcategory.ProductSubcategoryID %>">
+                                    <form action="/subcategory/update/<%= subcategory.ProductSubcategoryID %>"
+                                        class="form-container" method="post">
+                                        <h2 class="title">Update subcategory</h2>
+                                        <div class="input-group">
+                                            <label><b>Product Subcategory ID</b></label><br>
+                                            <input type="number" name="ProductSubcategoryID"
+                                                value="<%= subcategory.ProductSubcategoryID %>" disabled>
+                                        </div>
+                                        <div class="input-group">
+                                            <label><b>Name</b></label><br>
+                                            <input type="text" name="Name" maxlength="50"
+                                                value="<%= subcategory.Name %>" required>
+                                        </div>
+                                        <div class="input-group">
+                                            <label><b>Category</b></label>
+                                            <select name="ProductCategoryID">
+                                                <option value=""></option>
+                                                <% categories.forEach(category=> { %>
+                                                    <option value=<%=category.ProductCategoryID %>>
+                                                        <%=category.Name%>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+                                        <button type="button" class="close" onclick="closeForm()">Close</button>
+                                        <button type="submit" class="save">Save</button>
+                                    </form>
+                                </div>
+                                <form action="/subcategory/delete/<%= subcategory.ProductSubcategoryID %>"
+                                    method="post">
+                                    <button>Delete</button>
                                 </form>
                             </div>
                         </td>

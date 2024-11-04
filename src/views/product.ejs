@@ -14,15 +14,16 @@
     <li><a class="active" href="/product">Product</a></li>
     <li><a href="/category">Category</a></li>
     <li><a href="/subcategory">Subcategory</a></li>
+    <li><a href="/report">Report</a></li>
   </ul>
 
   <div class="content">
-    <button onclick="openForm()"><i class="fa fa-plus"></i> New product</button>
+    <button onclick="openForm('new-product')"><i class="fa fa-plus"></i> New product</button>
 
     <div class="overlay"></div>
 
-    <div class="form-popup">
-      <form action="/product" class="form-container">
+    <div class="form-popup" id="new-product">
+      <form action="/product" class="form-container" method="post">
         <h2 class="title">Add new product</h2>
         <div class="grid">
           <div class="input-group">
@@ -35,87 +36,125 @@
           </div>
           <div class="input-group">
             <label><b>Make Flag</b></label>
-            <input type="checkbox" name="MakeFlag" value=1 required>
+            <select name="MakeFlag" required>
+              <option value=1>Purchased</option>
+              <option value=0>Manufactured</option>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Finished Goods Flag</b></label>
-            <input type="checkbox" name="FinishedGoodsFlag" value=1 required>
+            <select name="FinishedGoodsFlag" required>
+              <option value=1>Salable</option>
+              <option value=0>Unsalable</option>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Color</b></label>
-            <input type="text" name="Color" maxlength="25">
+            <input type="text" name="Color" maxlength="15">
           </div>
           <div class="input-group">
             <label><b>Safety Stock Level</b></label>
-            <input type="number" name="SafetyStockLevel" required>
+            <input type="number" name="SafetyStockLevel" min="-32768" max="32767" value=2 required>
           </div>
           <div class="input-group">
             <label><b>Reorder Point</b></label>
-            <input type="number" name="ReorderPoint" required>
+            <input type="number" name="ReorderPoint" min="-32768" max="32767" value=1 required>
           </div>
           <div class="input-group">
             <label><b>Standard Cost</b></label>
-            <input type="number" step="0.01" name="StandardCost" required>
+            <input type="number" step="0.01" name="StandardCost" value=0 required>
           </div>
           <div class="input-group">
             <label><b>List Price</b></label>
-            <input type="number" step="0.01" name="ListPrice" required>
+            <input type="number" step="0.01" name="ListPrice" value=0 required>
           </div>
-          <div class="grid">
+          <div class="grid6-4">
             <div class="input-group">
               <label><b>Size</b></label><br>
               <input type="text" name="Size" maxlength="5">
             </div>
             <div class="input-group">
               <label><b>Unit Measure</b></label><br>
-              <input type="text" name="SizeUnitMeasureCode">
+              <select name="SizeUnitMeasureCode">
+                <option value=""></option>
+                <% unitMeasures.forEach(unitMeasure=> { %>
+                  <option value=<%=unitMeasure.UnitMeasureCode %>>
+                    <%=unitMeasure.Name%>
+                  </option>
+                  <% }) %>
+              </select>
             </div>
           </div>
-          <div class="grid">
+          <div class="grid6-4">
             <div class="input-group">
               <label><b>Weight</b></label>
               <input type="number" step="0.01" name="Weight">
             </div>
             <div class="input-group">
               <label><b>Unit Measure</b></label>
-              <input type="text" name="WeightUnitMeasureCode">
+              <select name="WeightUnitMeasureCode">
+                <option value=""></option>
+                <% unitMeasures.forEach(unitMeasure=> { %>
+                  <option value=<%=unitMeasure.UnitMeasureCode %>>
+                    <%=unitMeasure.Name%>
+                  </option>
+                  <% }) %>
+              </select>
             </div>
           </div>
           <div class="input-group">
             <label><b>Days to Manufacture</b></label>
-            <input type="number" name="DaysToManufacture" required>
+            <input type="number" name="DaysToManufacture" value=0 required>
           </div>
           <div class="input-group">
             <label><b>Product Line</b></label>
-            <input type="text" name="ProductLine">
+            <select name="ProductLine">
+              <option value=""></option>
+              <option value="R">Road</option>
+              <option value="M">Mountain</option>
+              <option value="T">Touring</option>
+              <option value="S">Standard</option>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Class</b></label>
-            <input type="text" name="Class">
+            <select name="Class">
+              <option value=""></option>
+              <option value="H">High</option>
+              <option value="M">Medium</option>
+              <option value="L">Low</option>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Style</b></label>
-            <input type="text" name="Style">
+            <select name="Style">
+              <option value=""></option>
+              <option value="W">Womens</option>
+              <option value="M">Mens</option>
+              <option value="U">Universal</option>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Product Subcategory ID</b></label>
-            <select name="ProductSubCategoryID">
+            <select name="ProductSubcategoryID">
+              <option value=""></option>
               <% subCategories.forEach(subCategory=> { %>
-                  <option value=<%=subCategory.ProductSubcategoryID %>>
-                      <%=subCategory.Name || "N/A" %>
-                  </option>
-                  <% }) %>
-          </select>
+                <option value=<%=subCategory.ProductSubcategoryID %>>
+                  <%=subCategory.Name%>
+                </option>
+                <% }) %>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Product Model ID</b></label>
-            <select name="ProductSubCategoryID">
+            <select name="ProductModelID">
+              <option value=""></option>
               <% models.forEach(model=> { %>
-                  <option value=<%=model.ProductModelID %>>
-                      <%=model.Name || "N/A" %>
-                  </option>
-                  <% }) %>
-          </select>
+                <option value=<%=model.ProductModelID %>>
+                  <%=model.Name%>
+                </option>
+                <% }) %>
+            </select>
           </div>
           <div class="input-group">
             <label><b>Sell Start Date</b></label>
@@ -131,19 +170,17 @@
           </div>
         </div>
         <button type="button" class="close" onclick="closeForm()">Close</button>
-        <form action="/product/add" method="post">
-          <button type="submit" class="save">Save</button>
-        </form>
+        <button type="submit" class="save">Save</button>
       </form>
     </div>
     <script>
-      function openForm() {
-        document.querySelector(".form-popup").style.display = "block";
+      function openForm(formId) {
+        document.getElementById(formId).style.display = "block";
         document.querySelector(".overlay").style.display = "block"; // Hiển thị lớp phủ
       }
 
       function closeForm() {
-        document.querySelector(".form-popup").style.display = "none";
+        document.querySelectorAll('.form-popup').forEach(form => form.style.display = "none");
         document.querySelector(".overlay").style.display = "none"; // Ẩn lớp phủ
       }
     </script>
@@ -176,6 +213,7 @@
           <th>DiscontinuedDate</th>
           <th>rowguid</th>
           <th>ModifiedDate</th>
+          <th>Option</th>
         </tr>
       </thead>
       <tbody>
@@ -255,6 +293,173 @@
             </td>
             <td>
               <%= product.ModifiedDate ? new Date(product.ModifiedDate).toLocaleDateString() : "N/A" %>
+            </td>
+            <td>
+              <div style="display: flex;">
+                <button onclick="openForm('update-product-<%= product.ProductID %>')">Update</button>
+                <div class="form-popup" id="update-product-<%= product.ProductID %>">
+                  <form action="/product/update/<%= product.ProductID %>" class="form-container" method="post">
+                    <h2 class="title">Update product</h2>
+                    <div class="grid">
+                      <div class="input-group">
+                        <label><b>Product ID</b></label><br>
+                        <input type="number" name="ProductID" value="<%= product.ProductID %>" disabled>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Name</b></label><br>
+                        <input type="text" name="Name" maxlength="50" value="<%= product.Name %>" required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Product Number</b></label><br>
+                        <input type="text" name="ProductNumber" maxlength="25" value="<%= product.ProductNumber %>"
+                          required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Make Flag</b></label>
+                        <select name="MakeFlag">
+                          <option value=1>Purchased</option>
+                          <option value=0>Manufactured</option>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Finished Goods Flag</b></label>
+                        <select name="FinishedGoodsFlag" required>
+                          <option value=1>Salable</option>
+                          <option value=0>Unsalable</option>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Color</b></label>
+                        <input type="text" name="Color" maxlength="15" value="<%= product.Color %>">
+                      </div>
+                      <div class="input-group">
+                        <label><b>Safety Stock Level</b></label>
+                        <input type="number" name="SafetyStockLevel" min="-32768" max="32767"
+                          value="<%= product.SafetyStockLevel %>" required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Reorder Point</b></label>
+                        <input type="number" name="ReorderPoint" min="-32768" max="32767"
+                          value="<%= product.ReorderPoint %>" required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Standard Cost</b></label>
+                        <input type="number" step="0.01" name="StandardCost" value="<%= product.StandardCost %>"
+                          required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>List Price</b></label>
+                        <input type="number" step="0.01" name="ListPrice" value="<%= product.ListPrice %>" required>
+                      </div>
+                      <div class="grid">
+                        <div class="input-group">
+                          <label><b>Size</b></label><br>
+                          <input type="text" name="Size" maxlength="5" value="<%= product.Size %>">
+                        </div>
+                        <div class="input-group">
+                          <label><b>Unit Measure</b></label><br>
+                          <select name="SizeUnitMeasureCode">
+                            <option value=""></option>
+                            <% unitMeasures.forEach(unitMeasure=> { %>
+                              <option value=<%=unitMeasure.UnitMeasureCode %>>
+                                <%=unitMeasure.Name%>
+                              </option>
+                              <% }) %>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="grid">
+                        <div class="input-group">
+                          <label><b>Weight</b></label>
+                          <input type="number" step="0.01" name="Weight" value="<%= product.Weight %>">
+                        </div>
+                        <div class="input-group">
+                          <label><b>Unit Measure</b></label>
+                          <select name="WeightUnitMeasureCode">
+                            <option value=""></option>
+                            <% unitMeasures.forEach(unitMeasure=> { %>
+                              <option value=<%=unitMeasure.UnitMeasureCode %>>
+                                <%=unitMeasure.Name%>
+                              </option>
+                              <% }) %>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Days to Manufacture</b></label>
+                        <input type="number" name="DaysToManufacture" value="<%= product.DaysToManufacture %>" required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Product Line</b></label>
+                        <select name="ProductLine">
+                          <option value=""></option>
+                          <option value="R">Road</option>
+                          <option value="M">Mountain</option>
+                          <option value="T">Touring</option>
+                          <option value="S">Standard</option>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Class</b></label>
+                        <select name="Class">
+                          <option value=""></option>
+                          <option value="H">High</option>
+                          <option value="M">Medium</option>
+                          <option value="L">Low</option>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Style</b></label>
+                        <select name="Style">
+                          <option value=""></option>
+                          <option value="W">Womens</option>
+                          <option value="M">Mens</option>
+                          <option value="U">Universal</option>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Product Subcategory ID</b></label>
+                        <select name="ProductSubcategoryID">
+                          <option value=""></option>
+                          <% subCategories.forEach(subCategory=> { %>
+                            <option value=<%=subCategory.ProductSubcategoryID %>>
+                              <%=subCategory.Name%>
+                            </option>
+                            <% }) %>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Product Model ID</b></label>
+                        <select name="ProductModelID">
+                          <option value=""></option>
+                          <% models.forEach(model=> { %>
+                            <option value=<%=model.ProductModelID %>>
+                              <%=model.Name%>
+                            </option>
+                            <% }) %>
+                        </select>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Sell Start Date</b></label>
+                        <input type="date" name="SellStartDate" value="<%= product.SellStartDate %>" required>
+                      </div>
+                      <div class="input-group">
+                        <label><b>Sell End Date</b></label>
+                        <input type="date" name="SellEndDate" value="<%= product.SellEndDate %>">
+                      </div>
+                      <div class="input-group">
+                        <label><b>Discontinued Date</b></label>
+                        <input type="date" name="DiscontinuedDate" value="<%= product.DiscontinuedDate %>">
+                      </div>
+                    </div>
+                    <button type="button" class="close" onclick="closeForm()">Close</button>
+                    <button type="submit" class="save">Save</button>
+                  </form>
+                </div>
+                <form action="/product/delete/<%= product.ProductID %>" method="post">
+                  <button>Delete</button>
+                </form>
+              </div>
             </td>
           </tr>
           <% }) %>
