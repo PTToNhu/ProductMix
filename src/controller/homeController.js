@@ -1,7 +1,8 @@
 const { getProductsFDB, postProductFDB, deleteProductFDB, updateProductFDB,
   postCategoryFDB, getCategoryFDB, deleteCategoryFDB, updateCategoryFDB,
   postSubCategoryFDB, deleteSubCategoryFDB, getSubCategoryFDB, updateSubcategoryFDB,
-  getModelFDB,  getUnitMeasureFDB } = require('../routes/api')
+  getModelFDB, getUnitMeasureFDB,
+  deleteProductbyProductSubcategoryFDB } = require('../routes/api')
 
 const getHomepage = (req, res) => {
   res.render("home.ejs")
@@ -79,11 +80,12 @@ const getSubCategory = async (req, res) => {
 }
 const postSubCategory = async (req, res) => {
   let { ProductCategoryID, Name } = req.body;
-  console.log('>>>check PId:', ProductCategoryID,'>>>Name:', Name)
+  console.log('>>>check PId:', ProductCategoryID, '>>>Name:', Name)
   const data = await postSubCategoryFDB(Name, ProductCategoryID)
   res.redirect('/subcategory')
 }
 const deleteSubcategory = async (req, res) => {
+  await deleteProductbyProductSubcategoryFDB(req.params.ProductSubcategoryID)
   await deleteSubCategoryFDB(req.params.ProductSubcategoryID)
   // console.log(req.params.ProductSubcategoryID)
   res.redirect('/subcategory')

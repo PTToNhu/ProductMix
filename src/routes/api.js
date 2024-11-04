@@ -185,7 +185,14 @@ const deleteProductFDB = async (ProductID) => {
                 SET [isDelete] = 1
                 WHERE [ProductID]=@ProductID`)
 }
-
+const deleteProductbyProductSubcategoryFDB = async (ProductSubcategoryID) => {
+    const pool = await connection();
+    const data = await pool.request()
+        .input('ProductSubcategoryID', sql.Int, ProductSubcategoryID)
+        .query(`UPDATE [Production].[Product]
+                SET [isDelete] = 1
+                WHERE [ProductSubcategoryID]=@ProductSubcategoryID`)
+}
 
 const getCategoryFDB = async () => {
     const pool = await connection()
@@ -386,6 +393,7 @@ module.exports = {
     postProductFDB,
     updateProductFDB,
     deleteProductFDB,
+    deleteProductbyProductSubcategoryFDB,
 
     getCategoryFDB,
     postCategoryFDB,
