@@ -9,12 +9,13 @@ const getHomepage = (req, res) => {
 }
 const getProducts = async (req, res) => {
   try {
-    const data = await getProductsFDB();
-    //console.log(data.recordset)
+    const page = req.query.page
+    const data = await getProductsFDB(page);
+    console.log(data.recordsets[1][0].Total)
     const subCategories = await getSubCategoryFDB();
     const models = await getModelFDB();
     const unitMeasures = await getUnitMeasureFDB()
-    res.render('product.ejs', { listProducts: data.recordset, subCategories: subCategories.recordset, models: models.recordset, unitMeasures: unitMeasures.recordset })
+    res.render('product.ejs', { listProducts: data.recordset, numOfProduct: data.recordsets[1][0].Total, page: page, subCategories: subCategories.recordset, models: models.recordset, unitMeasures: unitMeasures.recordset })
   }
   catch (err) {
     console.error("Error fetching products: ", err);
@@ -22,20 +23,21 @@ const getProducts = async (req, res) => {
   }
 }
 const postProduct = async (req, res) => {
+  // console.log(`param: ${req.query.page}`)
   console.log(req.body)
   await postProductFDB(req.body);
-  res.redirect('/product')
+  res.redirect(`/product?page=${req.query.page}`)
 }
 const updateProduct = async (req, res) => {
   await updateProductFDB(req.params.ProductID, req.body)
   console.log(req.params)
   console.log(req.body)
-  res.redirect('/product')
+  res.redirect(`/product?page=${req.query.page}`)
 }
 const deleteProduct = async (req, res) => {
+  console.log(req.params)
   await deleteProductFDB(req.params.ProductID)
-  //console.log(req.params)
-  res.redirect('/product')
+  res.redirect(`/product?page=${req.query.page}`)
 }
 const getCategory = async (req, res) => {
   try {

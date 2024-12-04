@@ -1,39 +1,12 @@
 var { connection } = require('../config/database')
 const sql = require("mssql");
-const { updateSubcategory } = require('../controller/homeController');
 
-const getProductsFDB = async () => {
+const getProductsFDB = async (page, size = 10) => {
     const pool = await connection()
     const data = await pool.request()
-        .query(
-            `SELECT TOP 10 [ProductID]
-            ,[Name]
-            ,[ProductNumber]
-            ,[MakeFlag]
-            ,[FinishedGoodsFlag]
-            ,[Color]
-            ,[SafetyStockLevel]
-            ,[ReorderPoint]
-            ,[StandardCost]
-            ,[ListPrice]
-            ,[Size]
-            ,[SizeUnitMeasureCode]
-            ,[WeightUnitMeasureCode]
-            ,[Weight]
-            ,[DaysToManufacture]
-            ,[ProductLine]
-            ,[Class]
-            ,[Style]
-            ,[ProductSubcategoryID]
-            ,[ProductModelID]
-            ,[SellStartDate]
-            ,[SellEndDate]
-            ,[DiscontinuedDate]
-            ,[rowguid]
-            ,[ModifiedDate]
-            FROM [CompanyX].[Production].[Product]
-            WHERE [isDelete] = 0`)
-
+        .input('page', page)
+        .input('size', size)
+        .execute(`[Production].[proc_ProductPagination]`)
     return data;
 }
 const postProductFDB = async (productData) => {
@@ -179,11 +152,30 @@ const updateProductFDB = async (productID, productData) => {
 }
 const deleteProductFDB = async (ProductID) => {
     const pool = await connection();
-    const data = await pool.request()
+    await deleteProductReviewFDB(ProductID)
+    await deleteProductPhotoFDB(ProductID)
+    await deleteProductDocumentFDB(ProductID)
+    const result = await pool.request()
         .input('ProductID', sql.Int, ProductID)
-        .query(`UPDATE [Production].[Product]
+        .output('Res', sql.Int)
+        .execute('proc_CheckProductIdExist');
+
+    const checkResult = result.output.Res; //1=xoa mem do ton tai
+    // console.log(`co the xoa ${checkResult}`)
+    if (checkResult == 1) {
+        const data = await pool.request()
+            .input('ProductID', sql.Int, ProductID)
+            .query(`UPDATE [Production].[Product]
                 SET [isDelete] = 1
                 WHERE [ProductID]=@ProductID`)
+    }
+    else {
+        const data = await pool.request()
+            .input('ProductID', sql.Int, ProductID)
+            .query(`DELETE [Production].[Product]
+                WHERE [ProductID]=@ProductID`)
+    }
+
 }
 const deleteProductbyProductSubcategoryFDB = async (ProductSubcategoryID) => {
     const pool = await connection();
@@ -226,8 +218,6 @@ const deleteCategoryFDB = async (ProductCategoryID) => {
                 SET [isDelete]=1
                 WHERE [ProductCategoryID]=@ProductCategoryID`)
 }
-
-
 const getSubCategoryFDB = async () => {
     const pool = await connection()
     const data = await pool.request()
@@ -268,6 +258,7 @@ const updateSubcategoryFDB = async (ProductSubcategoryID, Name, ProductCategoryI
         .query(`UPDATE [Production].[ProductSubcategory]
                 SET [Name]=@Name
                     ,[ProductCategoryID]=@ProductCategoryID
+                    , [ModifiedDate] = GETDATE()
                 WHERE ProductSubcategoryID=@ProductSubcategoryID`)
 }
 
@@ -407,18 +398,25 @@ module.exports = {
 
     getModelFDB,
     getUnitMeasureFDB,
-
+    //xóa tất
     deleteProductReviewFDB,
-    deleteProductDocumentFDB,
-    deleteProductListPriceHistoryFDB,
     deleteProductPhotoFDB,
+    deleteProductDocumentFDB,
+    //giữ lại nếu có -> nếu không có -> xóa sp được
+    deleteProductListPriceHistoryFDB,
     deleteProductCostHistoryFDB,
     deleteProductInventoryFDB,
     deleteBillOfMaterialsFDB,
-    updateNullAssemblyBillOfMaterialsFDB,
+
+    deleteTransactionHistoryFDB,
+    deletePurchaseOrderDetailFDB,
     deleteWorkOrderFDB,
     deleteWorkOrderRoutingFDB,
-    deleteTransactionHistoryFDB,
+
     deleteProductVendorFDB,
-    deletePurchaseOrderDetailFDB
+    updateNullAssemblyBillOfMaterialsFDB,
+
+    //xóa view -> KHÔNG CẦN XÓA DO VIEW TỰ CẬP NHẬT, CÒN TRƯỜNG HỢP SET ISDELETE THÌ...?, giữ lại specialoffer-> KHÔNG CẦN HIỆN THỰC
+    //special và view productand...
+
 }

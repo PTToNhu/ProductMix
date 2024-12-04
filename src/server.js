@@ -16,5 +16,5 @@ configViewEngine(app)
 app.use('/', webRoutes)
 
 app.listen(port, function () {
-  console.log(`Example app listening on ${hostname}:${port}!`);
+  console.log(`Example app listening on ${hostname}:${port}`);
 });

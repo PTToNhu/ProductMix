@@ -11,37 +11,39 @@
 <body>
     <ul class="sidenav">
         <li><a href="/">Home</a></li>
-        <li><a href="/product">Product</a></li>
+        <li><a href="/product?page=1">Product</a></li>
         <li><a href="/category">Category</a></li>
         <li><a class="active" href="/subcategory">Subcategory</a></li>
         <li><a href="/report">Report</a></li>
     </ul>
-    <div class="content">
-        <button onclick="openForm('new-subcategory')"><i class="fa fa-plus"></i> New subcategory</button>
+    <div class="content" style="margin-left: 7%;">
+        <button onclick="openForm('new-subcategory')" style="margin-left: 5%;"><i class="fa fa-plus"></i> New
+            subcategory</button>
 
         <div class="overlay"></div>
 
         <div class="form-popup" id="new-subcategory">
             <form action="/subcategory" class="form-container" method="post">
                 <h2 class="title">Add new subcategory</h2>
-                <div class="grid">
-                    <div class="input-group">
-                        <label><b>Category</b></label>
-                        <select name="ProductCategoryID">
-                            <% categories.forEach(category=> { %>
-                                <option value=<%=category.ProductCategoryID %>>
-                                    <%=category.Name || "N/A" %>
-                                </option>
-                                <% }) %>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label><b>Name</b></label><br>
-                        <input type="text" name="Name" maxlength="50" required>
-                    </div>
+                <div class="input-group">
+                    <label><b>Category</b></label>
+                    <select name="ProductCategoryID">
+                        <% categories.forEach(category=> { %>
+                            <option value=<%=category.ProductCategoryID %>>
+                                <%=category.Name || "N/A" %>
+                            </option>
+                            <% }) %>
+                    </select>
                 </div>
-                <button type="button" class="close" onclick="closeForm()">Close</button>
-                <button type="submit" class="save">Save</button>
+                <div class="input-group">
+                    <label><b>Name</b></label><br>
+                    <input type="text" name="Name" maxlength="50" required>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="close" onclick="closeForm()">Close</button>
+                    <button type="submit" class="save">Save</button>
+                </div>
+                
             </form>
         </div>
         <script>
@@ -55,75 +57,79 @@
                 document.querySelector(".overlay").style.display = "none"; // Ẩn lớp phủ
             }
         </script>
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>rowguid</th>
-                    <th>ModifiedDate</th>
-                    <th>Category</th>
-                    <th>Option</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% subcategories.forEach(subcategory=> { %>
+        <div class="table-container">
+            <table id="table">
+                <thead>
                     <tr>
-                        <td>
-                            <%= subcategory.Name || "N/A" %>
-                        </td>
-                        <td>
-                            <%= subcategory.rowguid %>
-                        </td>
-                        <td>
-                            <%= subcategory.ModifiedDate %>
-                        </td>
-                        <td>
-                            <%= subcategory.ProductCategoryName || "N/A" %>
-                        </td>
-                        <td>
-                            <div style="display: flex;">
-                                <button
-                                    onclick="openForm('update-subcategory-<%= subcategory.ProductSubcategoryID %>')">Update</button>
-                                <div class="form-popup update-subcategory"
-                                    id="update-subcategory-<%= subcategory.ProductSubcategoryID %>">
-                                    <form action="/subcategory/update/<%= subcategory.ProductSubcategoryID %>"
-                                        class="form-container" method="post">
-                                        <h2 class="title">Update subcategory</h2>
-                                        <div class="input-group">
-                                            <label><b>Product Subcategory ID</b></label><br>
-                                            <input type="number" name="ProductSubcategoryID"
-                                                value="<%= subcategory.ProductSubcategoryID %>" disabled>
-                                        </div>
-                                        <div class="input-group">
-                                            <label><b>Name</b></label><br>
-                                            <input type="text" name="Name" maxlength="50"
-                                                value="<%= subcategory.Name %>" required>
-                                        </div>
-                                        <div class="input-group">
-                                            <label><b>Category</b></label>
-                                            <select name="ProductCategoryID">
-                                                <option value=""></option>
-                                                <% categories.forEach(category=> { %>
-                                                    <option value=<%=category.ProductCategoryID %>>
-                                                        <%=category.Name%>
-                                                    </option>
-                                                    <% }) %>
-                                            </select>
-                                        </div>
-                                        <button type="button" class="close" onclick="closeForm()">Close</button>
-                                        <button type="submit" class="save">Save</button>
+                        <th>Name</th>
+                        <th>rowguid</th>
+                        <th>ModifiedDate</th>
+                        <th>Category</th>
+                        <th>Option</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% subcategories.forEach(subcategory=> { %>
+                        <tr>
+                            <td>
+                                <%= subcategory.Name || "N/A" %>
+                            </td>
+                            <td>
+                                <%= subcategory.rowguid %>
+                            </td>
+                            <td>
+                                <%= subcategory.ModifiedDate %>
+                            </td>
+                            <td>
+                                <%= subcategory.ProductCategoryName || "N/A" %>
+                            </td>
+                            <td>
+                                <div style="display: flex;">
+                                    <div>
+                                        <button
+                                            onclick="openForm('update-subcategory-<%= subcategory.ProductSubcategoryID %>')">Update</button>
+                                    </div>
+                                    <div class="form-popup update-subcategory"
+                                        id="update-subcategory-<%= subcategory.ProductSubcategoryID %>">
+                                        <form action="/subcategory/update/<%= subcategory.ProductSubcategoryID %>"
+                                            class="form-container" method="post">
+                                            <h2 class="title">Update subcategory</h2>
+                                            <div class="input-group">
+                                                <label><b>Product Subcategory ID</b></label><br>
+                                                <input type="number" name="ProductSubcategoryID"
+                                                    value="<%= subcategory.ProductSubcategoryID %>" disabled>
+                                            </div>
+                                            <div class="input-group">
+                                                <label><b>Name</b></label><br>
+                                                <input type="text" name="Name" maxlength="50"
+                                                    value="<%= subcategory.Name %>" required>
+                                            </div>
+                                            <div class="input-group">
+                                                <label><b>Category</b></label>
+                                                <select name="ProductCategoryID">
+                                                    <option value=""></option>
+                                                    <% categories.forEach(category=> { %>
+                                                        <option value=<%=category.ProductCategoryID %>>
+                                                            <%=category.Name%>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="close" onclick="closeForm()">Close</button>
+                                            <button type="submit" class="save">Save</button>
+                                        </form>
+                                    </div>
+                                    <form action="/subcategory/delete/<%= subcategory.ProductSubcategoryID %>"
+                                        method="post">
+                                        <button class="delete">Delete</button>
                                     </form>
                                 </div>
-                                <form action="/subcategory/delete/<%= subcategory.ProductSubcategoryID %>"
-                                    method="post">
-                                    <button>Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    <% }) %>
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 
