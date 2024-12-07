@@ -10,11 +10,9 @@
 
 <body>
     <ul class="sidenav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/product?page=1">Product</a></li>
+        <li><a href="/">Product</a></li>
         <li><a href="/category">Category</a></li>
         <li><a class="active" href="/subcategory">Subcategory</a></li>
-        <li><a href="/report">Report</a></li>
     </ul>
     <div class="content" style="margin-left: 7%;">
         <button onclick="openForm('new-subcategory')" style="margin-left: 5%;"><i class="fa fa-plus"></i> New
@@ -62,7 +60,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>rowguid</th>
+                        <!-- <th>rowguid</th> -->
                         <th>ModifiedDate</th>
                         <th>Category</th>
                         <th>Option</th>
@@ -74,9 +72,9 @@
                             <td>
                                 <%= subcategory.Name || "N/A" %>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <%= subcategory.rowguid %>
-                            </td>
+                            </td> -->
                             <td>
                                 <%= subcategory.ModifiedDate %>
                             </td>
@@ -84,7 +82,7 @@
                                 <%= subcategory.ProductCategoryName || "N/A" %>
                             </td>
                             <td>
-                                <div style="display: flex;">
+                                <div style="display: flex; justify-content: center;">
                                     <div>
                                         <button
                                             onclick="openForm('update-subcategory-<%= subcategory.ProductSubcategoryID %>')">Update</button>

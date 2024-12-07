@@ -11,11 +11,9 @@
 
 <body>
     <ul class="sidenav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/product?page=1">Product</a></li>
+        <li><a href="/">Product</a></li>
         <li><a class="active" href="/category">Category</a></li>
         <li><a href="/subcategory">Subcategory</a></li>
-        <li><a href="/report">Report</a></li>
     </ul>
     <div class="content" style="margin-left: 7%;">
         <button onclick="openForm('new-category')" style="margin-left: 5%;"><i class="fa fa-plus"></i> New
@@ -52,7 +50,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>rowguid</th>
+                        <!-- <th>rowguid</th> -->
                         <th>ModifiedDate</th>
                         <th>Option</th>
                     </tr>
@@ -63,14 +61,14 @@
                             <td>
                                 <%= category.Name || "N/A" %>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <%= category.rowguid %>
-                            </td>
+                            </td> -->
                             <td>
                                 <%= category.ModifiedDate %>
                             </td>
                             <td>
-                                <div style="display: flex;">
+                                <div style="display: flex; justify-content: center">
                                     <button
                                         onclick="openForm('update-category-<%= category.ProductCategoryID %>')">Update</button>
                                     <div class="form-popup update-category"

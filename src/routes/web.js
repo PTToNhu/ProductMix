@@ -24,5 +24,4 @@ router.post('/subcategory', postSubCategory)
 router.post('/subcategory/delete/:ProductSubcategoryID', deleteSubcategory)
 router.post('/subcategory/update/:ProductSubcategoryID', updateSubcategory)
 
-router.get('/report', getReport)
 module.exports = router;

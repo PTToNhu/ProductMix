@@ -16,11 +16,13 @@
   "author": "To Nhu",
   "license": "ISC",
   "dependencies": {
+    "datatables.net-dt": "2.1.8",
     "dotenv": "16.4.5",
     "ejs": "3.1.10",
     "express": "4.21.0",
-    "mssql": "11.0.1",
-    "msnodesqlv8": "4.2.1"
+    "jquery": "3.7.1",
+    "msnodesqlv8": "4.2.1",
+    "mssql": "11.0.1"
   },
   "devDependencies": {
     "nodemon": "3.1.7"
