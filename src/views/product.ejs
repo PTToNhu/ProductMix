@@ -134,8 +134,8 @@
           <div class="input-group">
             <label><b>Make Flag</b></label>
             <select name="MakeFlag" required>
-              <option value=1>Purchased</option>
-              <option value=0>Manufactured</option>
+              <option value=1>Manufactured</option>
+              <option value=0>Purchased</option>
             </select>
           </div>
           <div class="input-group">
@@ -364,7 +364,7 @@
             class: 'makeflag',
             render: function (data) {
               const flagClass = data ? 'manufacturing' : 'purchasing';
-              const flagText = data ? 'Manufacturing' : 'Purchasing';
+              const flagText = data ? 'Manufactured' : 'Purchased';
               return `<span class="${flagClass}">${flagText}</span>`;
             }
           },
@@ -372,7 +372,7 @@
             data: 'FinishedGoodsFlag',
             class: 'finishedgoodsflag',
             render: function (data) {
-              const flagClass = data ? 'salable' : 'unsalable'; // Xác định class
+              const flagClass = data ? 'salable' : 'unsalable';
               const flagText = data ? 'Salable' : 'Unsalable';
               return `<span class="${flagClass}">${flagText}</span>`;
             }
@@ -380,7 +380,7 @@
           {
             data: 'Color', class: 'color hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           { data: 'SafetyStockLevel', class: 'safetystocklevel' },
@@ -390,84 +390,84 @@
           {
             data: 'Size', class: 'size hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'SizeUnitMeasureCode', class: 'sizeunitmeasurecode hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'WeightUnitMeasureCode', class: 'weightunitmeasurecode hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'Weight', class: 'weight hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           { data: 'DaysToManufacture', class: 'daystomanufacture' },
           {
             data: 'ProductLine', class: 'productline hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'Class', class: 'class hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'Style', class: 'style hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'ProductSubcategoryID', class: 'productsubcategoryid hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'ProductModelID', class: 'productmodelid hide',
             render: function (data) {
-              return data ? data : '';
+              return data ? data : 'N/A';
             }
           },
           {
             data: 'SellStartDate',
             class: 'sellstartdate',
             render: function (data) {
-              return data ? new Date(data).toLocaleDateString() : '';
+              return data ? new Date(data).toLocaleDateString() : 'N/A';
             }
           },
           {
             data: 'SellEndDate',
             class: 'sellenddate hide',
             render: function (data) {
-              return data ? new Date(data).toLocaleDateString() : '';
+              return data ? new Date(data).toLocaleDateString() : 'N/A';
             }
           },
           {
             data: 'DiscontinuedDate',
             class: 'discontinueddate hide',
             render: function (data) {
-              return data ? new Date(data).toLocaleDateString() : '';
+              return data ? new Date(data).toLocaleDateString() : 'N/A';
             }
           },
           {
             data: 'ModifiedDate',
             class: 'modifiedDate hide',
             render: function (data) {
-              return data ? new Date(data).toLocaleDateString() : '';
+              return data ? new Date(data).toLocaleDateString() : 'N/A';
             }
           },
           {
@@ -495,16 +495,16 @@
                         </div>
                         <div class="input-group">
                           <label><b>Make Flag</b></label>
-                          <select name="MakeFlag">
-                            <option value=1>Purchased</option>
-                            <option value=0>Manufactured</option>
+                          <select name="MakeFlag" required>
+                            <option value="1" ${data.MakeFlag == 1 ? 'selected' : ''}>Manufactured</option>
+                            <option value="0" ${data.MakeFlag == 0 ? 'selected' : ''}>Purchased</option>
                           </select>
                         </div>
                         <div class="input-group">
                           <label><b>Finished Goods Flag</b></label>
                           <select name="FinishedGoodsFlag" required>
-                            <option value=1>Salable</option>
-                            <option value=0>Unsalable</option>
+                            <option value="1" ${data.FinishedGoodsFlag == 1 ? 'selected' : ''}>Salable</option>
+                            <option value="0" ${data.FinishedGoodsFlag == 0 ? 'selected' : ''}>Unsalable</option>
                           </select>
                         </div>
                         <div class="input-group">

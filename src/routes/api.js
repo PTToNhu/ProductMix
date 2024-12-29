@@ -1,14 +1,6 @@
 var { connection } = require("../config/database");
 const sql = require("mssql");
 
-// const getProductsFDB = async (page, size = 10) => {
-//     const pool = await connection()
-//     const data = await pool.request()
-//         .input('page', page)
-//         .input('size', size)
-//         .execute(`[dbo].[proc_ProductPagination]`)
-//     return data;
-// }
 const getProductsFDB = async (start, length) => {
   const pool = await connection();
   const data = await pool.request().query(`select * from Production.Product
@@ -22,11 +14,12 @@ const getProductsFDB = async (start, length) => {
   return { data: data.recordset, numOfProduct };
 };
 const postProductFDB = async (productData) => {
+  //console.log(productData)
   const pool = await connection();
   const Name = productData.Name;
   const ProductNumber = productData.ProductNumber;
-  const MakeFlag = productData.MakeFlag;
-  const FinishedGoodsFlag = productData.FinishedGoodsFlag;
+  const MakeFlag = productData.MakeFlag=== '1';
+  const FinishedGoodsFlag = productData.FinishedGoodsFlag=== '1';
   const Color = productData.Color || null;
   const SafetyStockLevel = productData.SafetyStockLevel;
   const ReorderPoint = productData.ReorderPoint;
@@ -46,7 +39,6 @@ const postProductFDB = async (productData) => {
   const SellEndDate = productData.SellEndDate || null;
   const DiscontinuedDate = productData.DiscontinuedDate || null;
   const isDelete = 0;
-
   await pool
     .request()
     .input("Name", sql.NVarChar, Name)
@@ -91,8 +83,8 @@ const updateProductFDB = async (productID, productData) => {
   const pool = await connection();
   const Name = productData.Name;
   const ProductNumber = productData.ProductNumber;
-  const MakeFlag = productData.MakeFlag;
-  const FinishedGoodsFlag = productData.FinishedGoodsFlag;
+  const MakeFlag = productData.MakeFlag === '1';
+  const FinishedGoodsFlag = productData.FinishedGoodsFlag=== '1';
   const Color = productData.Color || null;
   const SafetyStockLevel = productData.SafetyStockLevel;
   const ReorderPoint = productData.ReorderPoint;
@@ -111,7 +103,9 @@ const updateProductFDB = async (productID, productData) => {
   const SellStartDate = productData.SellStartDate;
   const SellEndDate = productData.SellEndDate || null;
   const DiscontinuedDate = productData.DiscontinuedDate || null;
-
+  // console.log(`makeflag ${MakeFlag} goodflag ${FinishedGoodsFlag}`)
+  // console.log('MakeFlag:', typeof MakeFlag, MakeFlag);
+  console.log(productData)
   await pool
     .request()
     .input("ProductID", sql.Int, productID)
@@ -240,7 +234,15 @@ const deleteCategoryFDB = async (ProductCategoryID) => {
       .input("ProductCategoryID", sql.Int, ProductCategoryID)
       .query(`UPDATE [Production].[ProductCategory]
                 SET [isDelete]=1
-                WHERE [ProductCategoryID]=@ProductCategoryID`);
+                WHERE [ProductCategoryID]=@ProductCategoryID
+              UPDATE [Production].[ProductSubcategory]
+                SET [isDelete]=1
+                WHERE ProductCategoryID=@ProductCategoryID
+              UPDATE [Production].[Product]
+                SET [isDelete] = 1
+                WHERE [ProductSubcategoryID] in (select ProductSubcategoryID
+                                                  from [Production].[ProductSubcategory]
+                                                  WHERE ProductCategoryID=@ProductCategoryID)`);
   } else {
     const data = await pool
       .request()
@@ -287,7 +289,10 @@ const deleteSubCategoryFDB = async (ProductSubcategoryID) => {
       .input("ProductSubcategoryID", sql.Int, ProductSubcategoryID)
       .query(`UPDATE [Production].[ProductSubcategory]
                 SET [isDelete]=1
-                WHERE ProductSubcategoryID=@ProductSubcategoryID`);
+                WHERE ProductSubcategoryID=@ProductSubcategoryID
+              UPDATE [Production].[Product]
+                SET [isDelete] = 1
+                WHERE [ProductSubcategoryID]=@ProductSubcategoryID`);
   } else {
     const data = await pool
       .request()

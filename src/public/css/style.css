@@ -6,7 +6,7 @@ body {
 ul.sidenav {
   margin: 0;
   padding: 0;
-  width: 7%;
+  width: 8%;
   background-color: hsl(217, 33%, 17%);
   position: fixed;
   height: 100%;
@@ -35,7 +35,7 @@ ul.sidenav li a:hover:not(.active) {
 
 .toggles {
   margin-top: 10px;
-  margin-left: 7%;
+  margin-left: 8%;
   padding-left: 10px;
   width: 7%;
   height: 100%;

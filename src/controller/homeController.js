@@ -56,14 +56,15 @@ const getProducts = async (request, response, next) => {
 };
 const postProduct = async (req, res) => {
   // console.log(`param: ${req.query.page}`)
-  console.log(req.body);
+  //console.log(req.body);
   await postProductFDB(req.body);
   res.redirect(`/`);
 };
 const updateProduct = async (req, res) => {
+  //console.log(`makeflag: ${req.body.MakeFlag} googflag: ${req.body.FinishedGoodsFlag}`)
   await updateProductFDB(req.params.ProductID, req.body);
-  console.log(req.params);
-  console.log(req.body);
+  //console.log(req.params);
+  //console.log(req.body);
   res.redirect(`/`);
 };
 const deleteProduct = async (req, res) => {
@@ -88,7 +89,7 @@ const postCategory = async (req, res) => {
   res.redirect("/category");
 };
 const deleteCategory = async (req, res) => {
-  await deleteSubCategoryFDB(req.params.ProductCategoryID);
+  //await deleteSubCategoryFDB(req.params.ProductCategoryID);
   await deleteCategoryFDB(req.params.ProductCategoryID);
   //console.log(req.params)
   res.redirect("/category");
@@ -120,7 +121,7 @@ const postSubCategory = async (req, res) => {
   res.redirect("/subcategory");
 };
 const deleteSubcategory = async (req, res) => {
-  await deleteProductbyProductSubcategoryFDB(req.params.ProductSubcategoryID);
+  //await deleteProductbyProductSubcategoryFDB(req.params.ProductSubcategoryID);
   await deleteSubCategoryFDB(req.params.ProductSubcategoryID);
   // console.log(req.params.ProductSubcategoryID)
   res.redirect("/subcategory");
